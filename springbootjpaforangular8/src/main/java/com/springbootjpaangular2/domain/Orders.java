@@ -75,47 +75,6 @@ public class Orders {
   
     public Orders () {};
    
-    /** 
-     * Unidirectional, name is class/entity member order, referencedColumn is table offer, 
-     * case sensitive. 
-	 * For unidirectional, only one side which is owning side (control side). 
-     * 
-     * For bidirectional (must have "mappedBy"),
-     * the owning side of the relation tracked by Hibernate is the side of the relation 
-     * that owns the foreign key in the database.
-     * 
-     * You can imagine that the owning side is the entity that has the reference to the other one. 
-     * In your excerpt, you have an one-to-one relationship. Since it's a symmetric relation, 
-     * you'll end up having that if object A is in relation with object B then also the vice-versa is true.
-	 * This means that saving into object A a reference to object B and saving in object B a 
-	 * reference to object A will be redundant: that's why you choose which object "owns" 
-	 * the other having the reference to it.
-	 * When you have got an one-to-many relationship, the objects related to the "many" part 
-	 * will be the owning side, otherwise you would have to store many references from a 
-	 * single object to a multitude. To avoid that, every object in the second class will have 
-	 * a pointer to the single one they refer to (so they are the owning side).
-	 * For a many-to-many relationship, since you will need a separate mapping table anyway 
-	 * there won't be any owning side.
-	 * 
-	 * In conclusion the owning side is the entity that has the reference to the other.
-     */
-    /**
-    @OneToOne 
-	@JoinColumns({ @JoinColumn(name = "owner", referencedColumnName = "owner",  insertable=false, updatable=false), 
-				   @JoinColumn(name = "offer_no", referencedColumnName = "offer_no",  insertable=false, updatable=false),
-				   @JoinColumn(name = "request_no", referencedColumnName = "request_no",  insertable=false, updatable=false)			   
-				}) 
-    
-	private Offers offer;
-    
-    public Offers getOffer() {
-    	return this.offer;
-    }
-    
-    public void setOffer(Offers offer) {
-    	this.offer = offer;
-    }   **/
-    
     public Integer getOrder_no() {
         return order_no;
     }
