@@ -11,7 +11,7 @@ Postgresql also was tested.
 To change diffrent database , go to META-INF/persistence.xml file and follow existed format to edit it.
 
 
-(2) for client side angular project, setup visual studio code, then open this project from folder.
+(2) for client side angular project, setup visual studio codes, then open this project from folder.
 from terminal of visual code screen run:  npm start   (may be need to run first :  npm install)
 browser will  open application.
 
