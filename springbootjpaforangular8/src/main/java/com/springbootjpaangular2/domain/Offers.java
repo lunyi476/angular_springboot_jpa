@@ -14,7 +14,7 @@ import java.util.stream.Collectors;
 
 
 /**
- * Quote entity/table
+ * Offers entity/table
  * @author lyi
  *
  */
