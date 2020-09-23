@@ -19,9 +19,11 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
  */
 @Configuration(proxyBeanMethods = false)
 @EnableTransactionManagement
+//@EnableConfigurationProperties annotation is strictly connected to @ConfiguratonProperties
 @EnableConfigurationProperties(DBConfigurationProperties.class)
 public class WebConfiguration {
 	
+	// The Console lets you access a SQL database using a browser interface
     @Bean 
     ServletRegistrationBean<?> h2servletRegistration(){
         ServletRegistrationBean<WebServlet> registrationBean = 

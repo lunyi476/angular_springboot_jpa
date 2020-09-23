@@ -39,11 +39,7 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
 import com.fasterxml.jackson.databind.*;
-import com.springbootjpaangular2.SpringBootWebApplication;
-import com.springbootjpaangular2.configuration.DBConfigurationProperties;
-import com.springbootjpaangular2.configuration.WebConfiguration;
 import com.springbootjpaangular2.controllers.QuoteOfferController;
-import com.springbootjpaangular2.services.QuoteOfferService;
 import com.springbootjpaangular2.services.QuoteOfferServiceImpl;
 
 import org.junit.jupiter.api.MethodOrderer.OrderAnnotation;

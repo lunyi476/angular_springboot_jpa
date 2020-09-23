@@ -1,10 +1,12 @@
 package com.springbootjpaangular2.configuration;
 
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
+import org.springframework.core.env.Environment;
 
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
@@ -17,10 +19,13 @@ import javax.validation.constraints.NotNull;
  */
 @Configuration  
 @PropertySource("classpath:application.properties")  // it is default
-//property in *.properties file: spring.datasource.url
+//property in *.properties file: spring.datasource.url, prefix are valid to bind to this object
 @ConfigurationProperties(prefix="spring.datasource", ignoreUnknownFields = false)
 public class DBConfigurationProperties {
 	
+	//@Autowired
+	//private Environment env;
+	 
     @NotNull   
     private String username;
 
@@ -51,7 +56,7 @@ public class DBConfigurationProperties {
   
   
 	@Bean  // used JPA persistenceUnit instead of above properties
-    public static EntityManagerFactory entityManagerFactoryBean () {
+    public static EntityManagerFactory entityManagerFactoryBean () {  
     	EntityManagerFactory entityManagerFactory;
 		try {
 			entityManagerFactory = Persistence.
