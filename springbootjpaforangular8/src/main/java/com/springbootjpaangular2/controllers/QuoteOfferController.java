@@ -91,7 +91,7 @@ public class QuoteOfferController {
     	String user = request.getParameter("userName");
     	String pass = request.getParameter("password");
     	JSONObject resp = new JSONObject();
-    	
+    	logger.info("user----"+user +"     "+"pass----"+pass);
     	HttpHeaders headers = new HttpHeaders();
     	/**
     	 * https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Access-Control-Expose-Headers
