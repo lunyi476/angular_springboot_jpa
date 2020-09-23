@@ -70,10 +70,6 @@ public class QuoteOfferController {
      */
     @Autowired
     private MessageSource  messageResource;
-    
-    //@Autowired
-   // ConversionService conversionService;
-    
     /**
      * Validator and DataBinder make up the validation. Inside BeanWrapper, 
      * PropertyEditorSupport

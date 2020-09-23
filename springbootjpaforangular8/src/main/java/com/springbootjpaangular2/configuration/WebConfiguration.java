@@ -12,6 +12,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.support.ReloadableResourceBundleMessageSource;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
+//import org.springframework.boot.autoconfigure.web.servlet.WebMvcAutoConfiguration;
 
 /** 
  * @author lyi
