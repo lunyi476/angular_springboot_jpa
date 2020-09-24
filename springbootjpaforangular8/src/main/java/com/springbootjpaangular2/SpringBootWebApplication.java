@@ -5,6 +5,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ConfigurableApplicationContext;
 
 
+
 /** 
  * @author lyi
  * 08/2020
@@ -12,8 +13,8 @@ import org.springframework.context.ConfigurableApplicationContext;
 @SpringBootApplication 
 public class SpringBootWebApplication {
     public static void main(String[] args) {
-    	//AnnotationConfigEmbeddedWebApplicationContext 
+    	//AnnotationConfigServletWebServerApplicationContext
     	ConfigurableApplicationContext ctx = SpringApplication.run(
-    			SpringBootWebApplication.class, args);     
+    			SpringBootWebApplication.class, args);
     }
 }
