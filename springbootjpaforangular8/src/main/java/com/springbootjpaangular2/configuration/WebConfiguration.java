@@ -48,6 +48,26 @@ public class WebConfiguration {
      * <beans>
 	 *	   <bean id = "terminatBean" class = "com.springbootjpaangular2.configuration.TerminatBean" />
 	 * </beans>
+	 * 
+	 *  If with no explicit name in @Bean specified, @Autowired, @Resource finds a primary 
+	 *  type match instead of a specific named bean.
+	 *  
+	 *  (2) Use BeanFactory, A is Bean:
+	 *  
+	 *  public class A  implements BeanFactoryAware{
+	 *	@Override
+	 *	public void setBeanFactory(BeanFactory beanFactory) throws BeansException {
+	 *	    System.out.println("setBeanFactory:"+beanFactory);
+	 *	}
+	 *  
+	 *  (3)
+	 *  @Value inject:
+	 *  
+	 *  public MovieRecommender(@Value("${catalog.name}") String catalog) {
+     *   	this.catalog = catalog;
+     *	}
+     *
+     * ${catalog.name} from @PropertySource("classpath:application.properties")
      * 
      */
     @Bean
