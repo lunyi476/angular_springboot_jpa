@@ -26,8 +26,10 @@ public class DBConfigurationProperties {
 	 * then get/reach different properties.
 	 * 
 	 * StandardServletEnvironment for AnnotationConfigServletWebServerApplicationContext
+	 * https://spring.io/blog/2014/11/04/a-quality-qualifier
 	 */
 	//@Autowired
+    //@Qualifier("main")
 	//private Environment env;
 	 
     @NotNull   

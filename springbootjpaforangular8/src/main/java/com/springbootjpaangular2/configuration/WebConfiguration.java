@@ -42,6 +42,14 @@ public class WebConfiguration {
         return registrationBean;
     }
     
+    /** 
+     * defined a Bean same as :
+     * 
+     * <beans>
+	 *	   <bean id = "terminatBean" class = "com.springbootjpaangular2.configuration.TerminatBean" />
+	 * </beans>
+     * 
+     */
     @Bean
     public TerminatBean getTerminateBean() {
         return new TerminatBean();
