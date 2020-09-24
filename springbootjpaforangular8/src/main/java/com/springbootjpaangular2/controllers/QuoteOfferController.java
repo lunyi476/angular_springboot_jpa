@@ -82,7 +82,12 @@ public class QuoteOfferController {
 	@Qualifier("todoValidator")
 	private org.springframework.validation.Validator validator2;
 	
-	@InitBinder
+    /**
+     *  For dynamic Bean validation, Data Binding(user input to Bean)
+     *  and event Bean field type conversion (besides annotation field
+     *  type validation and conversion).
+     */
+    @InitBinder
 	private void initBinder(WebDataBinder binder) { //ServletRequestDataBinder
 		/** 
 		 *  To trigger validation and Custom Editor, have to put @Validated
