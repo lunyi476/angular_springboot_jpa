@@ -54,8 +54,8 @@ public class DBConfigurationProperties {
     	this.driver = driver;
     }
   
-  
-	@Bean  // used JPA persistenceUnit instead of above properties
+    // use JPA persistenceUnit instead of above properties
+	@Bean  
     public static EntityManagerFactory entityManagerFactoryBean () {  
     	EntityManagerFactory entityManagerFactory;
 		try {

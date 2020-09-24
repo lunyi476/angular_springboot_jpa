@@ -19,7 +19,8 @@ import javax.persistence.EntityTransaction;
 import io.reactivex.Observable;
 
 /**
- * For consistent, always use same context for all operations and close entity-manager (context)
+ * For consistent, always use same context for all operations 
+ * and close entity-manager (context)
  * 
  * @author lyi
  *
@@ -132,7 +133,7 @@ public class QuoteOfferServiceImpl implements QuoteOfferService {
     	List<Offers> survivedOffers = quote.getOffers().stream().filter(
     			p-> p.getOffer_no() != null).collect(Collectors.toList());
     	/**
-    	 *  if managed Offers not in posted, delete it from managed.
+    	 *  if managed Offers not in posted, delete it from context.
     	 */ 
 		for ( Offers o: new ArrayList<Offers>(qts.getOffers())) {
 			if (o == null) continue;

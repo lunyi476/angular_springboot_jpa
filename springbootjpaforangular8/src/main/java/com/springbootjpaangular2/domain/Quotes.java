@@ -315,6 +315,13 @@ public class Quotes {
     	return result;
     }
     
+    /** 
+     * Reflection to set Bean values
+     * 
+     * @param source
+     * @param target
+     * @throws Exception
+     */
     public static void setAllFieldValue  (Quotes source, Quotes target) throws Exception { 
     	Method[] ms = (target.getClass().getDeclaredMethods());
     	List<Method> msListget= Arrays.stream(ms).filter(

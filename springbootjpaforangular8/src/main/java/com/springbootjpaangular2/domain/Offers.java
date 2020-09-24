@@ -23,7 +23,7 @@ import java.util.stream.Collectors;
 public class Offers {
 	
 	@GeneratedValue(strategy = GenerationType.AUTO, generator = "OFFERS_NO_SEQ")
-	@SequenceGenerator(name="OFFERS_NO_SEQ", sequenceName = "OFFERS_NO_SEQ") //for h2/postgresql,  nextval('OFFERSS_NO_SEQ') in insert 
+	@SequenceGenerator(name="OFFERS_NO_SEQ", sequenceName = "OFFERS_NO_SEQ")
     @Id
     private Integer offer_no;
     
@@ -104,7 +104,8 @@ public class Offers {
      * to offers, final persist offers. We can create quotes and offers, set relation
      * to offers, persist it at same time.
      * 
-     * Foreign key mapping partial primary key is not allowed, for example, joinCoulum only request_no.
+     * Foreign key mapping partial primary key is not allowed, for example, joinCoulum 
+     * only request_no is not allowed..
      */
 	@JoinColumns(  { @JoinColumn(name = "owner", referencedColumnName = "owner",insertable=false,  updatable=false),    
 			@JoinColumn(name = "request_no", referencedColumnName = "request_no",insertable=false,  updatable=false)})  

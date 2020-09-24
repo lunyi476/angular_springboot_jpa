@@ -9,6 +9,10 @@ import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
+/** 
+ * Any exception will come to this central advice
+ *
+ */
 @ControllerAdvice
 public class ExceptionControllerAdvice {
 

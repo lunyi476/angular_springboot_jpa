@@ -50,17 +50,12 @@ public class OrdersController {
     }
     
 	public static String DEFAULT_OWNER = "BAMBOOROSE";
-    /**
-     * Used to get message from code, or use context to get MessageResource: 
-     * WebApplicationContextUtils.getRequiredWebApplicationContext(
-     * 			request.getServletContext())
-     */
+   
+	
     @Autowired
     private MessageSource  messageResource;
-    /**
-     * @Pathvariable Or @RequestParam("order_no") Orders orderNo, 
-     * can trigger Custom Editor which set request_no
-     */
+   
+    
     @ResponseBody 
     @GetMapping(value = "/listorders", produces = MediaType.APPLICATION_JSON_VALUE)  
     public  List<Orders> listOrders(
@@ -110,7 +105,7 @@ public class OrdersController {
     			      HttpStatus.OK);    	
     } 
     
-    // Save posted either old(update) or new(created) order
+    
     @PostMapping(value ="/saveorder", consumes= "application/json") 
     public  ResponseEntity<String>  createOrders(@RequestBody Orders order, 
     		HttpServletRequest request, HttpServletResponse response) 
@@ -118,12 +113,7 @@ public class OrdersController {
     	
 	    String action = request.getHeader("reqaction");
     	Orders ord = null;
-    	/**
-    	 * 1. new/save is based on Order. Old Order may have new Offers.
-    	 * 
-    	 * 2. For error thrown, let server to return it as 
-    	 * HttpErrorResponse to Angular
-    	 */
+    	
     	if (action != null && action.contentEquals("new"))  {
     		ord = ordersService.createOrder(order);
     	}

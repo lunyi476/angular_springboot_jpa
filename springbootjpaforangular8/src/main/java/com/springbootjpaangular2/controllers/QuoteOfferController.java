@@ -219,7 +219,6 @@ public class QuoteOfferController {
     	return all;
     } 
     
- // To avoid recursive referencing, in case of bidirectional relation
     public static List<Offers> removeManySideParentFromOffer (List<Offers> all) {
     	all.forEach( (q) -> q.setQuotes(null));  	
     	return all;
