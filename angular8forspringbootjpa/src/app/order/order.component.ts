@@ -128,6 +128,7 @@ export class OrderComponent implements OnInit, OnDestroy {
   
   saveOrder (orderlist : Orders[], selectCtl: AbstractControl) : void {
     if (this.orderFormGroup.invalid || !this.orderFormGroup.dirty) {
+      this.msgService.openDialog("Please fill required filed.");
       return;
     }
 
