@@ -4,6 +4,8 @@ import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 
 import com.springbootjpaangular2.services.QuoteOfferService;
+
+
 import com.springbootjpaangular2.domain.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -13,6 +15,8 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -80,6 +84,11 @@ public class QuoteOfferController {
 	
 	@InitBinder
 	private void initBinder(WebDataBinder binder) { //ServletRequestDataBinder
+		/** 
+		 *  To trigger validation and Custom Editor, have to put @Validated
+		 *  and @Pathvariable Or @RequestParam("request_no") in mapping
+		 *  method.
+		 */
 		 binder.setValidator(validator2);
 		 binder.registerCustomEditor(Integer.class, "request_no", new QuotesEditor());
 	}
@@ -174,7 +183,7 @@ public class QuoteOfferController {
     
     // Save posted either old(update) or new(created) quote
     @PostMapping(value ="/savequote", consumes= "application/json") 
-    public  ResponseEntity<String>  createQuotes(@RequestBody Quotes quotes, 
+    public  ResponseEntity<String>  createQuotes(@RequestBody  @Validated  Quotes quotes, BindingResult result,
     		HttpServletRequest request, HttpServletResponse response) throws Exception { 	
     	
 	    String action = request.getHeader("reqaction");

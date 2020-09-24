@@ -33,18 +33,20 @@ public class TodoValidator implements Validator {
 
 	@Override
 	public void validate(Object obj, Errors errors) {
-		if (obj instanceof Orders )  {
-			Orders emp = (Orders) obj;
-			
+		// client side validated
+		if (obj instanceof Orders )  { 
+			Orders emp = (Orders) obj;			
 			if(StringUtils.isBlank(emp.getBuyer()) && emp.getOffer_no() == null) {		
 				errors.rejectValue("offer_no", "orders.missing.value"); 	
 				errors.reject("orders.missing.value", new Object[]{"'offer_no'", "'buyer'"}, "");
 			}
 			logger.info("validate error counts :  " + errors.getFieldErrorCount());
 		}
-		else if (obj instanceof Quotes   ) { 			
+		else if (obj instanceof Quotes   ) { 
+			System.out.println(obj.toString());
 		}
-		else if (obj instanceof Offers   ) { 		
+		else if (obj instanceof Offers   ) { 
+			System.out.println(obj.toString());
 		}
 	}
 }

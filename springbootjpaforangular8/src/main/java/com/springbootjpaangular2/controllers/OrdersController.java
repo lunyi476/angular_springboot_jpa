@@ -7,15 +7,20 @@ import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.springbootjpaangular2.domain.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.MessageSource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
@@ -55,7 +60,16 @@ public class OrdersController {
     @Autowired
     private MessageSource  messageResource;
    
-    
+    @Autowired
+  	@Qualifier("todoValidator")
+  	private org.springframework.validation.Validator validator2;
+  	
+  	@InitBinder
+  	private void initBinder(WebDataBinder binder) { 
+  		 binder.setValidator(validator2);
+  	}
+  	
+ 	
     @ResponseBody 
     @GetMapping(value = "/listorders", produces = MediaType.APPLICATION_JSON_VALUE)  
     public  List<Orders> listOrders(
@@ -107,7 +121,7 @@ public class OrdersController {
     
     
     @PostMapping(value ="/saveorder", consumes= "application/json") 
-    public  ResponseEntity<String>  createOrders(@RequestBody Orders order, 
+    public  ResponseEntity<String>  createOrders(@RequestBody @Validated Orders order,   BindingResult result,
     		HttpServletRequest request, HttpServletResponse response) 
     				throws Exception { 	
     	
