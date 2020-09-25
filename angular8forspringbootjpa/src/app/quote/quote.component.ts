@@ -168,7 +168,7 @@ export class QuoteComponent implements OnInit, OnDestroy {
 
   saveQuote (quotelist : Quotes[], selectCtl: AbstractControl) : void {
     if (this.quoteFormGroup.invalid || !this.quoteFormGroup.dirty ) {
-      this.msgService.openDialog("Please fill required filed.");
+      this.msgService.openDialog("Please fill required filed or update");
       return;
     }
 
