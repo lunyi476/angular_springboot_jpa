@@ -9,6 +9,11 @@ import org.springframework.context.ConfigurableApplicationContext;
 /** 
  * @author lyi
  * 08/2020
+ * 
+ * Algorithm to determine WebApplicationType:
+ * If Spring MVC is present, an AnnotationConfigServletWebServerApplicationContext is used
+ * If Spring MVC is not present and Spring WebFlux is present, an AnnotationConfigReactiveWebServerApplicationContext is used
+ * Otherwise, AnnotationConfigApplicationContext is used
  */
 @SpringBootApplication
 public class SpringBootWebApplication {

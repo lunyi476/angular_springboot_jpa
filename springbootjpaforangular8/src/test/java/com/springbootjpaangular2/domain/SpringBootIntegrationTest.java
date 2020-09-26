@@ -6,8 +6,6 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-import org.junit.Before;
-
 import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.util.ArrayList;
@@ -15,17 +13,16 @@ import java.util.Date;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
-import org.junit.jupiter.api.Test;  // switch to junit5
+import org.junit.jupiter.api.Test;  // switch to junit-5
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.TestMethodOrder;
-import org.junit.jupiter.api.extension.ExtendWith;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.MethodOrderer;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
@@ -37,34 +34,98 @@ import org.springframework.web.context.WebApplicationContext;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.*;
-import com.springbootjpaangular2.SpringBootWebApplication;
-import com.springbootjpaangular2.configuration.DBConfigurationProperties;
-import com.springbootjpaangular2.configuration.WebConfiguration;
 import com.springbootjpaangular2.controllers.QuoteOfferController;
+import com.springbootjpaangular2.services.QuoteOfferServiceImpl;
  
 
 
 /** 
  * @author lyi
  * 08/2020
+ * 
+ * Configuration, Initializer, Context and ContextLoader 
+ * are important elements for launching application
  */
-//@SpringBootTest
-@AutoConfigureMockMvc
+
+/** 
+ * (1) for using spring boot based test context.
+ * Automatically searches 
+ * for a @SpringBootConfiguration when nested @Configuration is not used, 
+ * and no explicit classes are specified. Then,
+ * @SpringBootConfiguration will cause auto-search @configuration and componentScan
+ * based on its location as base package, finally, all @configuration classes found.
+ */
+@SpringBootTest   
+/** (2) for using regular Spring TestContext Framework
 @ExtendWith(SpringExtension.class)  // JUNIT-5, @Order(n) and WebApplicationContext Autowired to work
 @WebAppConfiguration
-@ContextConfiguration(classes = {WebConfiguration.class, DBConfigurationProperties.class,
-		SpringBootWebApplication.class})
+//In test, use same configuration as application, web and db.
+@ContextConfiguration(classes = {WebConfiguration.class, DBConfigurationProperties.class, SpringBootWebApplication.class}) 
+**/
+/** (3) for both test context/framework. **/
+@AutoConfigureMockMvc
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class SpringBootIntegrationTest {
    
     @Autowired
     private  WebApplicationContext webApplicationContext;
 
-    @Autowired
-	private MockMvc mockMvc;
+	private MockMvc mockMvc; 
+    /** 
+     * Mocks can be registered by type or by bean name. Any existing single 
+     * bean of the same type defined in the context will be replaced by the mock.
+     * 
+     * Any Mock Object, we have to provide implementation (fake function or data)
+     * or wire it to real object. Otherwise it does nothing.
+     * 
+     * for example:  Mockito's @Mock 
+     * @Mock
+     * UserRepository mockRepository;
+     *
+	 * @Test
+	 * public void givenCountMethodMocked_WhenCountInvoked_ThenMockValueReturned() {
+	 *      // mock count() function
+	 *      Mockito.when(mockRepository.count()).thenReturn(123L);
+	 *      // call count() test
+	 *      long userCount = mockRepository.count();
+     *
+	 *      Assert.assertEquals(123L, userCount);
+	 *      Mockito.verify(mockRepository).count();
+	 * }
+	 * 
+	 * for example, Spring Boot's @MockBean
+	 * @MockBean
+	 * EmployeeRepository repository;
+	 * 
+	 * @Autowired
+	 * private WebTestClient webClient;
+	 *
+	 * @Test
+	 * void testCreateEmployee() {
+	 *   Employee employee = new Employee();
+	 *   employee.setId(1);
+	 *   employee.setName("Test");
+	 *   employee.setSalary(1000);
+	 *   // Implement the repository behavior of MockBean 
+	 *   Mockito.when(repository.save(employee)).thenReturn(Mono.just(employee));
+	 *   
+	 *   // Bellow will call MockBean repository instead of real repository
+	 *   webClient.post()
+	 *           .uri("/create")
+	 *           .contentType(MediaType.APPLICATION_JSON)
+	 *           .body(BodyInserters.fromObject(employee))
+	 *           .exchange()
+	 *           .expectStatus().isCreated();
+	 * 
+	 *    Mockito.verify(repository, times(1)).save(employee);
+	 *  }
+	 * }
+	 *
+     */
+    @MockBean
+    private QuoteOfferServiceImpl service;
     
-    
-    @Before
+    @BeforeEach
     public void initTests() { 	
     	 mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).build();
     }
@@ -114,8 +175,7 @@ public class SpringBootIntegrationTest {
     
     @Test
     @Order(2)
-    public void testUpdateWholeQuote() throws Exception {
-    	
+    public void testUpdateWholeQuote() throws Exception {    	
     	MvcResult result = mockMvc.perform(get("/listquotes")
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())

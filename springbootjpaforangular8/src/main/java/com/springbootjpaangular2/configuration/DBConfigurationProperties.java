@@ -64,9 +64,9 @@ public class DBConfigurationProperties {
     }
     **/
   
-    // use JPA persistenceUnit instead of above properties
+    // Use JPA persistenceUnit instead of above properties of mapping or environment
 	@Bean  
-    public EntityManagerFactory entityManagerFactoryBean () {  
+    public static EntityManagerFactory entityManagerFactoryBean () {  
     	EntityManagerFactory entityManagerFactory;
 		try {
 			entityManagerFactory = Persistence.
