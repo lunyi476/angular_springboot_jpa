@@ -59,7 +59,7 @@ import com.springbootjpaangular2.controllers.QuoteOfferController;
 @ContextConfiguration(classes = {WebConfiguration.class, DBConfigurationProperties.class, SpringBootWebApplication.class}) 
 **/
 /** (3) for both test context/framework. **/
-@AutoConfigureMockMvc  // this waiver of building mockMvc from WebApplicationContext
+@AutoConfigureMockMvc  // this waiver of building mockMvc from WebApplicationContext but less control by developer
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class SpringBootIntegrationTest {
    
@@ -127,6 +127,7 @@ public class SpringBootIntegrationTest {
     @BeforeEach
     public void initTests() { 	
     	 //mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).build();
+    	// fine control:  MockMvcBuilders.standaloneSetup(QuoteOfferController);
     }
     
     
