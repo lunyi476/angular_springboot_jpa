@@ -1,11 +1,12 @@
 package com.springbootjpaangular2.domain;
 
 
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-//import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.forwardedUrl;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-import org.junit.Test;
 
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
+import org.junit.Before;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
@@ -13,22 +14,18 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import javax.persistence.EntityManagerFactory;
-
 import static org.junit.jupiter.api.Assertions.*;
-import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;  // switch to junit5
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.TestMethodOrder;
-//import static org.mockito.Mockito.*;
-import org.junit.runner.RunWith;
-import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.junit.jupiter.api.MethodOrderer;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
-import org.springframework.test.context.jdbc.Sql;
-import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
@@ -38,11 +35,12 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.*;
+import com.springbootjpaangular2.SpringBootWebApplication;
+import com.springbootjpaangular2.configuration.DBConfigurationProperties;
+import com.springbootjpaangular2.configuration.WebConfiguration;
 import com.springbootjpaangular2.controllers.QuoteOfferController;
-import com.springbootjpaangular2.services.QuoteOfferServiceImpl;
-
-import org.junit.jupiter.api.MethodOrderer.OrderAnnotation;
  
 
 
@@ -50,17 +48,15 @@ import org.junit.jupiter.api.MethodOrderer.OrderAnnotation;
  * @author lyi
  * 08/2020
  */
-//@WebMvcTest
-//@TestPropertySource(locations = "classpath:application-integrationtest.properties")
-@SpringBootTest//(classes = {SpringBootWebApplication.class, DBConfigurationProperties.class, WebConfiguration.class})
+//@SpringBootTest
 @AutoConfigureMockMvc
-@TestMethodOrder(OrderAnnotation.class)
-@RunWith(SpringRunner.class)
+@ExtendWith(SpringExtension.class)  // JUNIT-5, @Order(n) and WebApplicationContext Autowired to work
+@WebAppConfiguration
+@ContextConfiguration(classes = {WebConfiguration.class, DBConfigurationProperties.class,
+		SpringBootWebApplication.class})
+@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class SpringBootIntegrationTest {
    
-	@Autowired // @MockBean
-    private  QuoteOfferServiceImpl quoteOfferServiceImpl;
-
     @Autowired
     private  WebApplicationContext webApplicationContext;
 
@@ -68,14 +64,9 @@ public class SpringBootIntegrationTest {
 	private MockMvc mockMvc;
     
     
-    @BeforeEach
+    @Before
     public void initTests() { 	
-    	 MockitoAnnotations.initMocks(this);
     	 mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).build();
-    	 // For local test use Mock EntitymanagerFactory, but if use it mockMvc.prform(..) will not work
-    	 //EntityManagerFactory entityManagerFactory = DBConfigurationProperties.entityManagerFactoryBean();
-         //quoteOfferServiceImpl = new QuoteOfferServiceImpl();
-         //quoteOfferServiceImpl.setFactory(entityManagerFactory);
     }
     
     
@@ -120,21 +111,20 @@ public class SpringBootIntegrationTest {
         
     }
     
-   
-    //@Test
-    @Order(2)
-    @Sql({"/META-INF/data.sql"}) //{"schema-h2.sql" }  
-    public void testLoadDataForTestClass() {      
-    	List<Quotes> qts= quoteOfferServiceImpl.listAllQuotes();
-    	int g = qts.size();
-        assertTrue(g > 0); 
-    }
-    
     
     @Test
-    @Order(3)
+    @Order(2)
     public void testUpdateWholeQuote() throws Exception {
-    	List<Quotes> qts= quoteOfferServiceImpl.listAllQuotes();
+    	
+    	MvcResult result = mockMvc.perform(get("/listquotes")
+                .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                .andReturn();
+    	
+    	ObjectMapper mapper = new ObjectMapper();
+    	List<Quotes> qts = mapper.readValue(result.getResponse().getContentAsString(), 
+    			new TypeReference<List<Quotes>>(){});
     	Quotes qt = QuoteOfferController.removeManySideParent(qts).get(0);
         
         qt.setRequested_by("Leonard Yi");
@@ -157,7 +147,7 @@ public class SpringBootIntegrationTest {
    
     
     @Test
-    @Order(4)
+    @Order(3)
     public void testRetrieveQuote () throws Exception {	
     	Quotes r1 = mockQuotes("shouldCreateQuote");  	  
         byte[] r1Json = toJson(r1);
@@ -166,8 +156,8 @@ public class SpringBootIntegrationTest {
                 .content(r1Json)
                 .header("reqaction", "new")
                 .contentType(MediaType.APPLICATION_JSON)
-                .accept(MediaType.APPLICATION_JSON))  // going to server
-                .andExpect(status().isOk())  // coming back from server response, 200 status code
+                .accept(MediaType.APPLICATION_JSON))  
+                .andExpect(status().isOk()) 
                 .andReturn();
         
         Integer req_no = Integer.valueOf(result.getResponse().getHeader("new_request_no"));
@@ -209,6 +199,7 @@ public class SpringBootIntegrationTest {
     	return ofs;	
     	
     }
+    
     
     private Quotes mockQuotes(String prefix) {
      	Quotes qts = new Quotes();

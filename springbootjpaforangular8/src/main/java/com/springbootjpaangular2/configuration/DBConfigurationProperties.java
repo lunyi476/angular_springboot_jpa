@@ -5,10 +5,12 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
+//import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseBuilder;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
-import javax.validation.constraints.NotNull;
+
 
 
 /** 
@@ -16,6 +18,7 @@ import javax.validation.constraints.NotNull;
  * 08/2020
  */
 @Configuration  
+@EnableTransactionManagement
 @PropertySource("classpath:application.properties")  // it is default
 //property in *.properties file: spring.datasource.url, prefix are valid to bind to this object
 @ConfigurationProperties(prefix="spring.datasource", ignoreUnknownFields = false)
@@ -31,7 +34,7 @@ public class DBConfigurationProperties {
 	//@Autowired
     //@Qualifier("main")
 	//private Environment env;
-	 
+	/**
     @NotNull   
     private String username;
 
@@ -59,6 +62,7 @@ public class DBConfigurationProperties {
     public void setDriver (String driver) {
     	this.driver = driver;
     }
+    **/
   
     // use JPA persistenceUnit instead of above properties
 	@Bean  

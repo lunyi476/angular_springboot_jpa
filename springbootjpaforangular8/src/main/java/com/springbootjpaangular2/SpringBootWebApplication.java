@@ -10,7 +10,7 @@ import org.springframework.context.ConfigurableApplicationContext;
  * @author lyi
  * 08/2020
  */
-@SpringBootApplication 
+@SpringBootApplication
 public class SpringBootWebApplication {
     public static void main(String[] args) {
     	//AnnotationConfigServletWebServerApplicationContext

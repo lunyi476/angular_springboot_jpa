@@ -2,7 +2,6 @@ package com.springbootjpaangular2.configuration;
 
 
 import org.h2.server.web.WebServlet;
-import org.springframework.boot.context.properties.EnableConfigurationProperties;
 //import org.apache.catalina.connector.Connector;
 //import org.springframework.boot.web.embedded.tomcat.TomcatConnectorCustomizer;
 //import org.springframework.boot.web.embedded.tomcat.TomcatServletWebServerFactory;
@@ -13,7 +12,6 @@ import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.support.ReloadableResourceBundleMessageSource;
-import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 
 /** 
@@ -28,8 +26,6 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
  * to @ConfiguratonProperties
  */
 @Configuration(proxyBeanMethods = false)
-@EnableTransactionManagement
-@EnableConfigurationProperties(DBConfigurationProperties.class)
 public class WebConfiguration {
 	
 	// The Console lets you access a SQL database using a browser interface
