@@ -52,7 +52,8 @@ import com.springbootjpaangular2.controllers.QuoteOfferController;
  * So, it is using REAL application configurations.
  */
 @SpringBootTest   
-/** (2) for using regular Spring TestContext Framework
+/** 
+(2) for using regular Spring TestContext Framework
 @ExtendWith(SpringExtension.class)  // JUNIT-5, @Order(n) and WebApplicationContext Autowired to work
 @WebAppConfiguration
 //In test, use same configuration as REAL application, web and db.
