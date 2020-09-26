@@ -1,7 +1,6 @@
 package com.springbootjpaangular2.domain;
 
 
-
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -21,7 +20,6 @@ import org.junit.jupiter.api.MethodOrderer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
@@ -29,15 +27,11 @@ import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilde
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
-import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-import org.springframework.web.context.WebApplicationContext;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.*;
 import com.springbootjpaangular2.controllers.QuoteOfferController;
-import com.springbootjpaangular2.services.QuoteOfferServiceImpl;
  
-
 
 /** 
  * @author lyi
@@ -54,22 +48,26 @@ import com.springbootjpaangular2.services.QuoteOfferServiceImpl;
  * and no explicit classes are specified. Then,
  * @SpringBootConfiguration will cause auto-search @configuration and componentScan
  * based on its location as base package, finally, all @configuration classes found.
+ * 
+ * So, it is using REAL application configurations.
  */
 @SpringBootTest   
 /** (2) for using regular Spring TestContext Framework
 @ExtendWith(SpringExtension.class)  // JUNIT-5, @Order(n) and WebApplicationContext Autowired to work
 @WebAppConfiguration
-//In test, use same configuration as application, web and db.
+//In test, use same configuration as REAL application, web and db.
 @ContextConfiguration(classes = {WebConfiguration.class, DBConfigurationProperties.class, SpringBootWebApplication.class}) 
 **/
 /** (3) for both test context/framework. **/
-@AutoConfigureMockMvc
+@AutoConfigureMockMvc  // this waiver of building mockMvc from WebApplicationContext
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class SpringBootIntegrationTest {
    
+    //@Autowired
+    //private  WebApplicationContext webApplicationContext;
+    
+	// Real application configuration used In either case of @SpringBootTest or @ContextConfiguration
     @Autowired
-    private  WebApplicationContext webApplicationContext;
-
 	private MockMvc mockMvc; 
     /** 
      * Mocks can be registered by type or by bean name. Any existing single 
@@ -120,14 +118,15 @@ public class SpringBootIntegrationTest {
 	 *    Mockito.verify(repository, times(1)).save(employee);
 	 *  }
 	 * }
-	 *
+	 * 
+	 * must implement it because it replaces real serviceImpl
      */
-    @MockBean
-    private QuoteOfferServiceImpl service;
+    //@MockBean
+    //private QuoteOfferServiceImpl service;
     
     @BeforeEach
     public void initTests() { 	
-    	 mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).build();
+    	 //mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).build();
     }
     
     
