@@ -10,6 +10,9 @@ import org.springframework.context.ConfigurableApplicationContext;
  * @author lyi
  * 08/2020
  * 
+ * Configuration, Initializer, Context and ContextLoader 
+ * are important elements for launching application.
+ * 
  * Algorithm to determine WebApplicationType:
  * If Spring MVC is present, an AnnotationConfigServletWebServerApplicationContext is used
  * If Spring MVC is not present and Spring WebFlux is present, an AnnotationConfigReactiveWebServerApplicationContext is used

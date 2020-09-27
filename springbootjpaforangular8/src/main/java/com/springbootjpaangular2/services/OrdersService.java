@@ -18,7 +18,7 @@ public interface OrdersService {
 
     void deleteOrder(Integer id);
     
-    public EntityManagerFactory getFactory ();
+    public EntityManagerFactory getEntityManagerFactory ();
 
 	Orders getOrderById(Integer id);
 	

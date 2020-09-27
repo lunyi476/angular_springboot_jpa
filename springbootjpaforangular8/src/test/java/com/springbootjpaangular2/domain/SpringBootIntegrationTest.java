@@ -31,33 +31,40 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.*;
 import com.springbootjpaangular2.controllers.QuoteOfferController;
+
  
 
 /** 
  * @author lyi
  * 08/2020
  * 
- * Configuration, Initializer, Context and ContextLoader 
- * are important elements for launching application
+ * For angular-springboot-jpa, testing focus on service (business logic),
+ * persistence, request mapping, and response. In this project, persistence, 
+ * mapping and response are concerned.
+ * 
+ * org.springframework.mock package more used for Unit(isolated) testing.
+ * org.springframework.test package more used for integration(real context, JPA) testing.
+ * org.springframework.boot.test package used for auto-configuration of testing context.
  */
 
 /** 
- * (1) for using spring boot based test context.
- * Automatically searches 
- * for a @SpringBootConfiguration when nested @Configuration is not used, 
- * and no explicit classes are specified. Then,
- * @SpringBootConfiguration will cause auto-search @configuration and componentScan
- * based on its location as base package, finally, all @configuration classes found.
+ * 	(1) for using spring boot based test context.
+ * 	Automatically searches for a @SpringBootConfiguration 
+ *  when nested @Configuration is not used, 
+ * 	and no explicit classes are specified. Then,
+ * 	@SpringBootConfiguration will cause auto-search @configuration and componentScan
+ * 	based on its location as base package, finally, all @configuration and component 
+ *  classes found.
  * 
- * So, it is using REAL application configurations.
+ * 	So, it is using REAL application configurations.
  */
 @SpringBootTest   
 /** 
-(2) for using regular Spring TestContext Framework
-@ExtendWith(SpringExtension.class)  // JUNIT-5, @Order(n) and WebApplicationContext Autowired to work
-@WebAppConfiguration
-//In test, use same configuration as REAL application, web and db.
-@ContextConfiguration(classes = {WebConfiguration.class, DBConfigurationProperties.class, SpringBootWebApplication.class}) 
+ *  (2) for using regular Spring TestContext Framework
+ *	@ExtendWith(SpringExtension.class)  // JUNIT-5, @Order(n) and WebApplicationContext Autowired to work
+ *	@WebAppConfiguration  // used together with @ContextConfiguration
+ *	In test, use same configuration as REAL application, web and db
+ *	@ContextConfiguration(classes = {WebConfiguration.class, DBConfigurationProperties.class, SpringBootWebApplication.class}) 
 **/
 /** (3) for both test context/framework. **/
 @AutoConfigureMockMvc  // this waiver of building mockMvc from WebApplicationContext but less control by developer
@@ -67,7 +74,7 @@ public class SpringBootIntegrationTest {
     //@Autowired
     //private  WebApplicationContext webApplicationContext;
     
-	// Real application configuration used In either case of @SpringBootTest or @ContextConfiguration
+	// Real application configuration/context used In either case of @SpringBootTest or @ContextConfiguration
     @Autowired
 	private MockMvc mockMvc; 
     /** 

@@ -4,9 +4,7 @@ package com.springbootjpaangular2.services;
 import com.springbootjpaangular2.domain.Quotes;
 import com.springbootjpaangular2.domain.QuotesKeys;
 
-import java.util.Enumeration;
 import java.util.List;
-import java.util.Map;
 
 import javax.persistence.EntityManagerFactory;
 
@@ -28,8 +26,7 @@ public interface QuoteOfferService {
 
     Offers getOfferById(OffersKeys id);
     
-    public EntityManagerFactory getFactory ();
-    public void setFactory (EntityManagerFactory factory);
+    public EntityManagerFactory getEntityManagerFactory ();
 
 	Quotes getQuoteById(QuotesKeys id);
 }

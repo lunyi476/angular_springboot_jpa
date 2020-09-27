@@ -32,24 +32,24 @@ public class QuoteOfferServiceImpl implements QuoteOfferService {
 			QuoteOfferServiceImpl.class);
 	
 	// thread safe singleton, EntityManager is thread unsafe Singleton
-	@Autowired 
-	EntityManagerFactory factory; 
+	private final EntityManagerFactory entityManagerFactory; 
+
+	@Autowired
+	QuoteOfferServiceImpl (EntityManagerFactory factory) {
+		this.entityManagerFactory = factory;
+	}
 	
 	@Override  
-	public EntityManagerFactory getFactory () {
-		return this.factory;
+	public EntityManagerFactory getEntityManagerFactory () {
+		return this.entityManagerFactory;
 		
 	}
 	
-	@Override 
-	public void setFactory (EntityManagerFactory factory) {
-		this.factory = factory;	
-	}
 	
 	/** get, find, load are auto-committed/transaction **/
     @Override
     public List<Quotes> listAllQuotes() {
-    	EntityManager em = factory.createEntityManager(); 
+    	EntityManager em = entityManagerFactory.createEntityManager(); 
     	List<Quotes> qts = em.createQuery("SELECT p from Quotes p", 
     			Quotes.class).getResultList();
     	em.close();        
@@ -59,7 +59,7 @@ public class QuoteOfferServiceImpl implements QuoteOfferService {
 
     @Override
     public Quotes getQuoteById(QuotesKeys id) {
-    	EntityManager em = factory.createEntityManager();   	
+    	EntityManager em = entityManagerFactory.createEntityManager();   	
     	Quotes qts = em.find(Quotes.class, id);	    
 	    em.close();
         return qts;
@@ -68,7 +68,7 @@ public class QuoteOfferServiceImpl implements QuoteOfferService {
 
     @Override
     public Quotes createQuote(Quotes quote) { 
-    	EntityManager em = factory.createEntityManager();
+    	EntityManager em = entityManagerFactory.createEntityManager();
     	EntityTransaction trns = em.getTransaction();
     	List<Offers> offersNew = new ArrayList<Offers>();
     	
@@ -121,7 +121,7 @@ public class QuoteOfferServiceImpl implements QuoteOfferService {
      */
     @Override
     public Quotes updateWholeQuote(Quotes quote) throws Exception {
-    	EntityManager em = factory.createEntityManager();
+    	EntityManager em = entityManagerFactory.createEntityManager();
     	Integer reqNo = quote.getRequest_no();
     	String owner =  quote.getOwner();
     	
@@ -156,7 +156,7 @@ public class QuoteOfferServiceImpl implements QuoteOfferService {
     
     @Override
     public void deleteQuote(QuotesKeys id) {
-    	EntityManager em = factory.createEntityManager(); 
+    	EntityManager em = entityManagerFactory.createEntityManager(); 
     	EntityTransaction trns = em.getTransaction();
     	
     	trns.begin();
@@ -172,7 +172,7 @@ public class QuoteOfferServiceImpl implements QuoteOfferService {
    
     @Override
     public List<Offers> listAllOffers() {
-     	EntityManager em = factory.createEntityManager(); 
+     	EntityManager em = entityManagerFactory.createEntityManager(); 
     	List<Offers> ofs = em.createQuery("SELECT p from Offers p", 
     			Offers.class).getResultList();
     	em.close();             
@@ -182,7 +182,7 @@ public class QuoteOfferServiceImpl implements QuoteOfferService {
 
     @Override
     public Offers getOfferById(OffersKeys id) {
-    	EntityManager em = factory.createEntityManager();   	
+    	EntityManager em = entityManagerFactory.createEntityManager();   	
     	Offers ofs = em.find(Offers.class, id);	    
 	    em.close();
         return ofs;
