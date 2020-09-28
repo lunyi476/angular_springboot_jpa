@@ -19,11 +19,9 @@ import javax.persistence.EntityTransaction;
 import io.reactivex.Observable;
 
 /**
- * For consistent, always use same context for all operations 
- * and close entity-manager (context)
  * 
  * @author lyi
- *
+ * 
  */
 @Service
 @Transactional
@@ -31,13 +29,14 @@ public class QuoteOfferServiceImpl implements QuoteOfferService {
 	private static final Logger logger = LoggerFactory.getLogger(
 			QuoteOfferServiceImpl.class);
 	
-	// thread safe singleton, EntityManager is thread unsafe Singleton
+	// thread safe singleton, EntityManager is thread unsafe
 	private final EntityManagerFactory entityManagerFactory; 
 
 	@Autowired
 	QuoteOfferServiceImpl (EntityManagerFactory factory) {
 		this.entityManagerFactory = factory;
 	}
+
 	
 	@Override  
 	public EntityManagerFactory getEntityManagerFactory () {
@@ -45,7 +44,7 @@ public class QuoteOfferServiceImpl implements QuoteOfferService {
 		
 	}
 	
-	
+
 	/** get, find, load are auto-committed/transaction **/
     @Override
     public List<Quotes> listAllQuotes() {
@@ -75,7 +74,7 @@ public class QuoteOfferServiceImpl implements QuoteOfferService {
     	if (quote.getRequest_no() == null) { // should be null
 	        /**
 	         *  Quote and Offer cannot be created at same transaction because 
-	         *  request_no/owner unknown yet. Or persist(quote), then set request_no
+	         *  request_no/owner unknown yet. Persist(quote), then set request_no
 	         *  to offer, finally flush and committed transaction.
 	         *  
 	         *  new ArrayList<Offers>(quote.getOffers()) for
@@ -104,7 +103,7 @@ public class QuoteOfferServiceImpl implements QuoteOfferService {
          for (Offers o: offersNew) {
         	 quote.addOffer(o); // in managed context
          }
-         /** https://thorben-janssen.com/persist-save-merge-saveorupdate-whats-difference-one-use/ **/
+  
          em.flush(); // send to db but not committed, 
          em.clear(); // release memory, detached
          trns.commit(); // real saved in db

@@ -15,14 +15,15 @@ import org.springframework.context.ConfigurableApplicationContext;
  * 
  * Algorithm to determine WebApplicationType:
  * If Spring MVC is present, an AnnotationConfigServletWebServerApplicationContext is used
- * If Spring MVC is not present and Spring WebFlux is present, an AnnotationConfigReactiveWebServerApplicationContext is used
+ * If Spring MVC is not present and Spring WebFlux is present, 
+ * an AnnotationConfigReactiveWebServerApplicationContext is used.
+ * 
  * Otherwise, AnnotationConfigApplicationContext is used
  */
 @SpringBootApplication
 public class SpringBootWebApplication {
+	private static ConfigurableApplicationContext ctx;
     public static void main(String[] args) {
-    	//AnnotationConfigServletWebServerApplicationContext
-    	ConfigurableApplicationContext ctx = SpringApplication.run(
-    			SpringBootWebApplication.class, args);
+    	ctx = SpringApplication.run(SpringBootWebApplication.class, args);
     }
 }

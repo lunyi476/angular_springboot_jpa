@@ -39,11 +39,12 @@ public class WebConfiguration {
     }
     
     /** 
-     * defined a Bean same as :
+     *  (1)
+     *  defined a Bean same as :
      * 
-     * <beans>
+     *  <beans>
 	 *	   <bean id = "terminatBean" class = "com.springbootjpaangular2.configuration.TerminatBean" />
-	 * </beans>
+	 *  </beans>
 	 * 
 	 *  If with no explicit name in @Bean specified, @Autowired, @Resource finds a primary 
 	 *  type match instead of a specific named bean.
@@ -53,7 +54,7 @@ public class WebConfiguration {
 	 *  public class A  implements BeanFactoryAware{
 	 *	@Override
 	 *	public void setBeanFactory(BeanFactory beanFactory) throws BeansException {
-	 *	    System.out.println("setBeanFactory:"+beanFactory);
+	 *	    .....
 	 *	}
 	 *  
 	 *  (3)

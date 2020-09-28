@@ -67,13 +67,17 @@ public class QuoteOfferController {
     public void setQuoteOfferService(QuoteOfferService quoteOfferService) 
     		throws ParseException {
         this.quoteOfferService = quoteOfferService;    
-    }  
+    } 
+    
+    
     /**
      * Used to get message from code, or use context to get MessageResource: 
      * WebApplicationContextUtils.getRequiredWebApplicationContext(request.getServletContext())
      */
     @Autowired
     private MessageSource  messageResource;
+    
+    
     /**
      * Validator and DataBinder make up the validation. Inside BeanWrapper, 
      * PropertyEditorSupport
@@ -81,6 +85,8 @@ public class QuoteOfferController {
     @Autowired
 	@Qualifier("todoValidator")
 	private org.springframework.validation.Validator validator2;
+    
+    
 	
     /**
      *  For dynamic Bean validation, Data Binding(user input to Bean)
@@ -107,9 +113,7 @@ public class QuoteOfferController {
     	JSONObject resp = new JSONObject();
     	logger.info("user----"+user +"     "+"pass----"+pass);
     	HttpHeaders headers = new HttpHeaders();
-    	/**
-    	 * https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Access-Control-Expose-Headers
-    	 */
+
         headers.add("Access-Control-Expose-Headers", "*");
         // Fake implementation 
     	if (StringUtils.isNotBlank(user) && StringUtils.isNotBlank(pass)) {  	 
@@ -126,6 +130,7 @@ public class QuoteOfferController {
     	}
     }
     
+    
     /**
      * @Pathvariable Or @RequestParam("request_no") Quotes reqNo, 
      * can trigger Custom Editor which set request_no
@@ -138,6 +143,7 @@ public class QuoteOfferController {
     	all = removeManySideParent (all);	
     	return all;
     }
+    
     
     @ResponseBody 
     @GetMapping(value = "/listoffers", produces = MediaType.APPLICATION_JSON_VALUE)  
@@ -186,6 +192,7 @@ public class QuoteOfferController {
     			      HttpStatus.OK);    	
     } 
     
+    
     // Save posted either old(update) or new(created) quote
     @PostMapping(value ="/savequote", consumes= "application/json") 
     public  ResponseEntity<String>  createQuotes(@RequestBody  @Validated  Quotes quotes, BindingResult result,
@@ -227,11 +234,13 @@ public class QuoteOfferController {
     			      HttpStatus.OK);    	
     }
     
+    
 	// To avoid recursive referencing, in case of bidirectional relation
     public static List<Quotes> removeManySideParent (List<Quotes> all) {
     	all.forEach( (q) -> q.getOffers().forEach((o) -> o.setQuotes(null)));  	
     	return all;
     } 
+    
     
     public static List<Offers> removeManySideParentFromOffer (List<Offers> all) {
     	all.forEach( (q) -> q.setQuotes(null));  	

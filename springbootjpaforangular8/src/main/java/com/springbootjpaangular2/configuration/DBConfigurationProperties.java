@@ -19,20 +19,16 @@ import javax.persistence.Persistence;
  */
 @Configuration  
 @EnableTransactionManagement
-@PropertySource("classpath:application.properties")  // it is default
+@PropertySource("classpath:application.properties")
 //property in *.properties file: spring.datasource.url, prefix are valid to bind to this object
 @ConfigurationProperties(prefix="spring.datasource", ignoreUnknownFields = false)
 public class DBConfigurationProperties {
 	
 	/**
 	 * different application-context will have different Environment,
-	 * then get/reach different properties.
-	 * 
-	 * StandardServletEnvironment for AnnotationConfigServletWebServerApplicationContext
-	 * https://spring.io/blog/2014/11/04/a-quality-qualifier
+	 * then get different properties.
 	 */
 	//@Autowired
-    //@Qualifier("main")
 	//private Environment env;
 	/**
     @NotNull   

@@ -45,36 +45,41 @@ import com.springbootjpaangular2.controllers.QuoteOfferController;
  * org.springframework.mock package more used for Unit(isolated) testing.
  * org.springframework.test package more used for integration(real context, JPA) testing.
  * org.springframework.boot.test package used for auto-configuration of testing context.
- */
-
-/** 
- * 	(1) for using spring boot based test context.
+ *
+ *
+ * 	(1) 
+ *  for using spring boot based test context 
+ *  @SpringBootTest
  * 	Automatically searches for a @SpringBootConfiguration 
  *  when nested @Configuration is not used, 
  * 	and no explicit classes are specified. Then,
  * 	@SpringBootConfiguration will cause auto-search @configuration and componentScan
  * 	based on its location as base package, finally, all @configuration and component 
  *  classes found.
- * 
  * 	So, it is using REAL application configurations.
- */
-@SpringBootTest   
-/** 
- *  (2) for using regular Spring TestContext Framework
+ *  
+ *	(2) 
+ *	for using regular Spring TestContext Framework
  *	@ExtendWith(SpringExtension.class)  // JUNIT-5, @Order(n) and WebApplicationContext Autowired to work
  *	@WebAppConfiguration  // used together with @ContextConfiguration
  *	In test, use same configuration as REAL application, web and db
  *	@ContextConfiguration(classes = {WebConfiguration.class, DBConfigurationProperties.class, SpringBootWebApplication.class}) 
-**/
-/** (3) for both test context/framework. **/
-@AutoConfigureMockMvc  // this waiver of building mockMvc from WebApplicationContext but less control by developer
+ *
+ *  (3)
+ *  for both test context/framework
+ *  @AutoConfigureMockMvc  // this waiver of building mockMvc from WebApplicationContext but less control by developer
+ *	@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
+ *	
+ *	Real application configuration/context used In either case of @SpringBootTest or @ContextConfiguration
+ */
+@SpringBootTest   
+@AutoConfigureMockMvc  
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class SpringBootIntegrationTest {
    
     //@Autowired
     //private  WebApplicationContext webApplicationContext;
     
-	// Real application configuration/context used In either case of @SpringBootTest or @ContextConfiguration
     @Autowired
 	private MockMvc mockMvc; 
     /** 
@@ -127,7 +132,6 @@ public class SpringBootIntegrationTest {
 	 *  }
 	 * }
 	 * 
-	 * must implement it because it replaces real serviceImpl
      */
     //@MockBean
     //private QuoteOfferServiceImpl service;
