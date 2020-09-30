@@ -32,8 +32,9 @@ public class QuoteOfferServiceImpl implements QuoteOfferService {
 	// thread safe singleton, EntityManager is thread unsafe
 	private final EntityManagerFactory entityManagerFactory; 
 
+	
 	@Autowired
-	QuoteOfferServiceImpl (EntityManagerFactory factory) {
+	public QuoteOfferServiceImpl (EntityManagerFactory factory) {
 		this.entityManagerFactory = factory;
 	}
 

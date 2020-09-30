@@ -27,6 +27,9 @@ import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilde
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
+//import static org.mockito.Mockito.*;
+//import static org.mockito.BDDMockito.*;
+//import org.springframework.boot.test.mock.mockito.MockBean;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.*;
@@ -83,11 +86,14 @@ public class SpringBootIntegrationTest {
     @Autowired
 	private MockMvc mockMvc; 
     /** 
+     * Three kinds of Mock Object: Stub, Mock, Proxy/Spy (inside wired to real object)
+     * 
      * Mocks can be registered by type or by bean name. Any existing single 
      * bean of the same type defined in the context will be replaced by the mock.
      * 
      * Any Mock Object, we have to provide implementation (fake function or data)
-     * or wire it to real object. Otherwise it does nothing.
+     * or wire it to real object. Otherwise it does nothing. Normally, we have
+     * to create Mock Object by Subclass/create new Object/others to replace real Object.
      * 
      * for example:  Mockito's @Mock 
      * @Mock
@@ -139,7 +145,7 @@ public class SpringBootIntegrationTest {
     @BeforeEach
     public void initTests() { 	
     	 //mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).build();
-    	// fine control:  MockMvcBuilders.standaloneSetup(QuoteOfferController);
+    	// fine control:  MockMvcBuilders.standaloneSetup(QuoteOfferController);	
     }
     
     
