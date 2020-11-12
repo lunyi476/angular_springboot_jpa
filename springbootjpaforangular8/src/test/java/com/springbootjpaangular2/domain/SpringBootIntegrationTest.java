@@ -27,9 +27,11 @@ import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilde
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
+import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 //import static org.mockito.Mockito.*;
 //import static org.mockito.BDDMockito.*;
 //import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.web.context.WebApplicationContext;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.*;
@@ -80,8 +82,8 @@ import com.springbootjpaangular2.controllers.QuoteOfferController;
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class SpringBootIntegrationTest {
    
-    //@Autowired
-    //private  WebApplicationContext webApplicationContext;
+    @Autowired
+    private  WebApplicationContext webApplicationContext;
     
     @Autowired
 	private MockMvc mockMvc; 
@@ -144,7 +146,7 @@ public class SpringBootIntegrationTest {
     
     @BeforeEach
     public void initTests() { 	
-    	 //mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).build();
+    	 mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).build();
     	// fine control:  MockMvcBuilders.standaloneSetup(QuoteOfferController);	
     }
     
@@ -159,14 +161,15 @@ public class SpringBootIntegrationTest {
         MvcResult result =  this.mockMvc.perform(post("/savequote")
                 .content(r1Json)
                 .header("reqaction", "new")
-                .contentType(MediaType.APPLICATION_JSON)
+                .contentType(MediaType.APPLICATION_JSON)  //MediaType.APPLICATION_JSON
                 .accept(MediaType.APPLICATION_JSON))  // going to server
                 .andExpect(status().isOk())  // coming back from server response, 200 status code
                 .andReturn();
         
         Integer req_no = Integer.valueOf(result.getResponse().getHeader("new_request_no"));
     	assertTrue(result.getResponse().getContentAsString() != null && req_no != null);
-      
+        
+    	qt.setRequest_no(req_no);
         Offers ofs = mockOffers(req_no, 1);
         List<Offers> detail = new ArrayList<Offers>();
         
@@ -195,7 +198,7 @@ public class SpringBootIntegrationTest {
     @Order(2)
     public void testUpdateWholeQuote() throws Exception {    	
     	MvcResult result = mockMvc.perform(get("/listquotes")
-                .accept(MediaType.APPLICATION_JSON))
+                .accept(MediaType.APPLICATION_JSON))  //MediaType.APPLICATION_JSON
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andReturn();
@@ -222,6 +225,7 @@ public class SpringBootIntegrationTest {
                     .andExpect(MockMvcResultMatchers.content().bytes(r1Json))
                     .andDo(MockMvcResultHandlers.print());	       
     }
+   
    
     
     @Test

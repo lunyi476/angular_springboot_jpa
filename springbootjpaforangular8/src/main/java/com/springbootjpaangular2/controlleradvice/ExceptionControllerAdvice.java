@@ -9,6 +9,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
+import com.springbootjpaangular2.controllers.QuoteOfferController;
+
 /** 
  * Any exception will come to this central advice
  *
@@ -25,8 +27,10 @@ public class ExceptionControllerAdvice {
 		res.setStatus(500);
 	
 		try {
-			//Lazy error handling at server side, let Angular to handle and display		
-			res.getWriter().print("Error :  " + exc.getMessage()+"  at "+req.getRequestURL());
+		 	String xmlSt =  QuoteOfferController.XmlConverterHelper.getResponseXML(
+		 				null, null, "Error :  " + exc.getMessage()+"  at "+req.getRequestURL());
+			//Lazy error handling at server side, let browser to handle and display		
+			res.getWriter().print(xmlSt);
 			
 		} catch (Exception er) {}
 	}		
