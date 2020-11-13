@@ -1,9 +1,9 @@
 
   <br>
   <form [formGroup]="quoteFormGroup">
-<table style="border-bottom:1px solid;"><tbody><thead id="thd"><tr><th style="text-align:center;">Request Information<th></tr></thead></tbody></table>
+<table style="width:70%;margin-left:230px;border-bottom:1px solid;"><tbody><thead id="thd"><tr><th style="text-align:center;">Request Information<th></tr></thead></tbody></table>
   <div id ="quoteheader"> 
-  <table>
+  <table style="width:100%;">
   <tbody>
       <tr>
         <ng-container *ngFor="let field of fieldquoteNames; index as k">        
@@ -18,7 +18,7 @@
      </tr>      
   </tbody>
   </table>
-  <table>
+  <table style="width:100%;">
       <tbody>
           <tr >
             <ng-container *ngFor="let field of fieldquoteNames; index as k">        
@@ -83,10 +83,10 @@
 
   <br> <br>
 
-  <table style="border-bottom:1px solid;"><tbody><thead id="thd"><tr><th style="text-align:center;">Offer Detail Information<th></tr></thead></tbody></table>
+  <table style="width:70%;margin-left:230px;border-bottom:1px solid;"><tbody><thead id="thd"><tr><th style="text-align:center;">Offer Detail Information<th></tr></thead></tbody></table>
     
     <div id="detail">       
-              <table>
+              <table style="width:100%;">
               <tbody>				
                 <tr>
                   <td><button style="border:none;font-family:Consolas;font-weight:bold;" type="button" (click)="deleteRow()">Delete</button></td>                            
