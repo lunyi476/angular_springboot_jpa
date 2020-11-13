@@ -6,7 +6,7 @@ import { HomeComponent } from './home/home.component';
 import { OrderComponent } from './order/order.component';
 import { BuildorderComponent } from './order/buildorder.component';
 
-const routes: Routes = [                      
+const routes: Routes = [                     
                         {path: '', redirectTo: '/home', pathMatch: 'full' },
                         {path: 'home', component: HomeComponent },
                         {path: 'login', component: LoginComponent},

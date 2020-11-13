@@ -123,5 +123,8 @@
       }
     }
   },
-  "defaultProject": "angular8forspringbootjpa"
+  "defaultProject": "angular8forspringbootjpa",
+  "cli": {
+    "analytics": false
+  }
 }
